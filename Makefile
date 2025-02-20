@@ -6,7 +6,7 @@
 #    By: ltcherep <ltcherep@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/19 21:39:05 by ltcherep          #+#    #+#              #
-#    Updated: 2025/02/19 21:40:17 by ltcherep         ###   ########.fr        #
+#    Updated: 2025/02/20 00:42:29 by ltcherep         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ SRCS_PARSING =
 SRCS = $(SRCS_PARSING)
 
 OBJS = $(SRCS:.c=.o)
-FLAG = -Wall -Werror -Wextra -g3 -fsanitize=address
+LDFLAGS	= -Lmlx -lbsd -lmlx -lXext -lX11
+LDFLAG = ./libft/libft.a
+FLAG = -Wall -Werror -Wextra -Ilibft -I. -g3 -fsanitize=address
 RM = rm -f
 AR = ar rcs
 CC = gcc
@@ -25,17 +27,17 @@ CC = gcc
 			$(CC) $(FLAG) -c $< -o $(<:.c=.o)
 
 $(NAME):	$(OBJS)
-			$(MAKE)
-			$(CC) $(FLAG) $(OBJS) -o $(NAME)
+			$(MAKE) -C ./libft
+			$(CC) $(FLAG) $(OBJS) $(LDFLAG) $(LDFLAGS) -o $(NAME)
 
 all:		$(NAME)
 
 clean:
-			$(MAKE)
+			$(MAKE) clean -C ./libft
 			$(RM) $(OBJS)
 
 fclean:		clean
-			$(MAKE)
+			$(MAKE) fclean -C ./libft
 			$(RM) $(NAME)
 
 
