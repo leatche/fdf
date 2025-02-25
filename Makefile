@@ -6,7 +6,7 @@
 #    By: tcherepoff <tcherepoff@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/19 21:39:05 by ltcherep          #+#    #+#              #
-#    Updated: 2025/02/22 14:02:54 by tcherepoff       ###   ########.fr        #
+#    Updated: 2025/02/25 02:36:32 by tcherepoff       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS = $(SRCS_PARSING) $(SRCS_OTHER)
 OBJS = $(SRCS:.c=.o)
 LDFLAGS	= -Lmlx -lbsd -lmlx -lXext -lX11
 LDFLAG = ./libft/libft.a
-FLAG = -Wall -Werror -Wextra -Ilibft -Imlx -Ilibft/get_next_line -I. -g3 -fsanitize=address
+FLAG = -Wall -Werror -Wextra -Ilibft -Imlx -Ilibft/get_next_line -I.
 RM = @rm -f
 AR = ar rcs
 CC = gcc
