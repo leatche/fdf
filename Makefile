@@ -6,21 +6,27 @@
 #    By: tcherepoff <tcherepoff@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/19 21:39:05 by ltcherep          #+#    #+#              #
-#    Updated: 2025/02/25 02:36:32 by tcherepoff       ###   ########.fr        #
+#    Updated: 2025/02/27 19:22:09 by tcherepoff       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
-SRCS_PARSING	= srcs/parsing/parsing.c	\
+SRCS_PARSING	=	srcs/parsing/parsing.c		\
+					srcs/parsing/utils_parsing.c\
 
-SRCS_OTHER		= srcs/main.c				\
+SRCS_MAIN		=	srcs/main/main.c			\
+					srcs/main/annex.c			\
 
-SRCS = $(SRCS_PARSING) $(SRCS_OTHER)
+SRCS_IMAGE		=	srcs/image/image.c			\
+					srcs/image/image_utils.c	\
+					srcs/image/image_line.c		\
+
+SRCS = $(SRCS_PARSING) $(SRCS_MAIN) $(SRCS_IMAGE)
 
 OBJS = $(SRCS:.c=.o)
 LDFLAGS	= -Lmlx -lbsd -lmlx -lXext -lX11
 LDFLAG = ./libft/libft.a
-FLAG = -Wall -Werror -Wextra -Ilibft -Imlx -Ilibft/get_next_line -I.
+FLAG = -Wall -Werror -Wextra -Ilibft -Imlx -Ilibft/get_next_line -I. -fsanitize=address -g3
 RM = @rm -f
 AR = ar rcs
 CC = gcc

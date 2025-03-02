@@ -6,108 +6,89 @@
 /*   By: tcherepoff <tcherepoff@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 22:52:28 by ltcherep          #+#    #+#             */
-/*   Updated: 2025/02/25 05:10:48 by tcherepoff       ###   ########.fr       */
+/*   Updated: 2025/03/02 03:03:10 by tcherepoff       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-
-int	ft_create_element(int value_element, t_list **new_element)
+int	ft_strlen_char(char **bb)
 {
-	(*new_element) = malloc(sizeof(t_list));
-	if (!(*new_element))
-		return (-1);
-	(*new_element)->content = value_element;
-	(*new_element)->next = NULL;
-	return (1);
-}
+	int	i;
+	int	size;
 
-int	ft_add_the_element(t_list **list, int value_element)
-{
-	t_list	*new_element;
-	t_list	*tmp;
-	
-	if (ft_create_element(value_element, &new_element) == -1)
+	size = 0;
+	i = 0;
+	if (!bb || !*bb)
 		return (-1);
-	if (!(*list))
-		(*list) = new_element;
-	else
+	while (bb[i] != NULL)
 	{
-		tmp = *list;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_element;
+		size++;
+		i++;
 	}
-	return (1);
+	return (size);
 }
 
-int	main(int ac, char **av)
+t_list	*ft_put_in_list(t_vom *vom, char *file_name)
 {
-	int		fd;
-	int		i;
-	int		v;
-	int		z;
-	int		**tab;
-	int		size_line;
-	int		nb_line;
+	t_list	*list;
 	char	*line;
 	char	**bb;
-	t_list	*list;
-	t_list	*current;
-	
-	size_line = 1;
-	i = 0;
-	v = 1;
-	list = NULL;
+	int		i;
+	int		fd;
 
-	// ouvrir le fichier 
-	fd = open(av[1], O_RDONLY);
+	i = 0;
+	list = NULL;
+	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
-		return (0);
-	
-	// récupérer les lignes
-	while ((line = get_next_line(fd)))
+		return (NULL);
+	while (line != NULL || i == 0)
 	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
 		bb = ft_split(line, ' ');
-		
 		free(line);
+		if (list == NULL)
+			vom->size_line = ft_strlen_char(bb);
 		i = 0;
+		if (!bb || !*bb)
+			return (NULL);
 		while (bb[i] != NULL)
 		{
-			ft_add_the_element(&list, ft_atoi(bb[i]));
+			ft_lstadd_back(&list, ft_lstnew(ft_alloc_number(ft_atoi(bb[i]))));
 			i++;
 		}
-		i = 0;
-		if (v)
-		{
-			while (bb[++i] != NULL)
-				size_line++;
-			v = 0;
-		}
-		while (bb[i])
-		{
-			free(bb[i]);
-			i++;
-		}
-		free(bb);
+		free_tab((void *)bb);
 	}
 	close(fd);
-	nb_line = ft_lstsize(list) / size_line;
-	current = list;
-	tab = malloc(sizeof(int *) * ft_lstsize(list) + 1);
+	return (list);
+}
+
+void	ft_parsing(t_vom *vom, char *file_name)
+{
+	int		i;
+	int		z;
+	t_list	*list;
+	t_list	*current;
+
 	i = 0;
-	while (i < nb_line)
+	list = ft_put_in_list(vom, file_name);
+	vom->nb_line = ft_lstsize(list) / vom->size_line;
+	current = list;
+	vom->tab = malloc(sizeof(int *) * (ft_lstsize(list) + 1));
+	while (i < vom->nb_line)
 	{
 		z = 0;
-		tab[i] = malloc(sizeof(int) * size_line);
-		while (current && z < size_line)
+		vom->tab[i] = malloc(sizeof(int) * vom->size_line);
+		while (current && z < vom->size_line)
 		{
-			tab[i][z] = current->content;
+			vom->tab[i][z] = *((int *)current->content);
 			current = current->next;
 			z++;
 		}
 		i++;
 	}
-	return (0);
+	vom->tab[i] = NULL;
+	ft_lstclear(&list, free);
 }
