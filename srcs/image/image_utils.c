@@ -6,7 +6,7 @@
 /*   By: tcherepoff <tcherepoff@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 18:43:05 by tcherepoff        #+#    #+#             */
-/*   Updated: 2025/02/28 19:21:36 by tcherepoff       ###   ########.fr       */
+/*   Updated: 2025/03/04 00:15:32 by tcherepoff       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,23 @@ t_pixel	color(int r, int g, int b)
 	return (color);
 }
 
-void	color_background(t_pixel *draw)
+void	color_background(t_vom *vom)
 {
 	t_pixel	color;
 	int		x;
 	int		y;
 
 	x = 0;
-	while (x < WIDTH)
+	while (x < vom->width)
 	{
 		y = 0;
-		while (y < HEIGHT)
+		while (y < vom->height)
 		{
-			color.r = (double)x / WIDTH * 255;
+			color.r = (double)x / vom->width * 255;
 			color.b = 200;
 			color.a = 0;
-			draw[x + (y * WIDTH)] = color;
+			if (vom->draw[x + (y * vom->width)].r == 255)
+				vom->draw[x + (y * vom->width)] = color;
 			y++;
 		}
 		x++;

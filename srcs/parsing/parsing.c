@@ -6,7 +6,7 @@
 /*   By: tcherepoff <tcherepoff@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 22:52:28 by ltcherep          #+#    #+#             */
-/*   Updated: 2025/03/02 03:03:10 by tcherepoff       ###   ########.fr       */
+/*   Updated: 2025/03/04 00:11:52 by tcherepoff       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,37 +29,45 @@ int	ft_strlen_char(char **bb)
 	return (size);
 }
 
+int	add_line_to_list(t_vom *vom, t_list **list, char *line)
+{
+	char	**bb;
+	int		i;
+
+	bb = ft_split(line, ' ');
+	free(line);
+	if (*list == NULL)
+		vom->size_line = ft_strlen_char(bb);
+	i = 0;
+	if (!bb || !*bb)
+		return (1);
+	while (bb[i] != NULL)
+	{
+		ft_lstadd_back(list, ft_lstnew(ft_alloc_number(ft_atoi(bb[i]))));
+		i++;
+	}
+	free_tab((void *)bb);
+	return (0);
+}
+
 t_list	*ft_put_in_list(t_vom *vom, char *file_name)
 {
 	t_list	*list;
 	char	*line;
-	char	**bb;
-	int		i;
 	int		fd;
 
-	i = 0;
 	list = NULL;
+	line = "";
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
-	while (line != NULL || i == 0)
+	while (line != NULL)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		bb = ft_split(line, ' ');
-		free(line);
-		if (list == NULL)
-			vom->size_line = ft_strlen_char(bb);
-		i = 0;
-		if (!bb || !*bb)
+		if (add_line_to_list(vom, &list, line))
 			return (NULL);
-		while (bb[i] != NULL)
-		{
-			ft_lstadd_back(&list, ft_lstnew(ft_alloc_number(ft_atoi(bb[i]))));
-			i++;
-		}
-		free_tab((void *)bb);
 	}
 	close(fd);
 	return (list);
