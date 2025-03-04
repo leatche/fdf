@@ -6,7 +6,7 @@
 /*   By: tcherepoff <tcherepoff@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 21:34:14 by ltcherep          #+#    #+#             */
-/*   Updated: 2025/03/04 00:28:09 by tcherepoff       ###   ########.fr       */
+/*   Updated: 2025/03/04 01:43:52 by tcherepoff       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,24 @@
 # include "libft.h"
 # include "get_next_line.h"
 
-typedef struct s_pixel {
-	unsigned char b;
-	unsigned char g;
-	unsigned char r;
-	unsigned char a;
+typedef struct s_pixel
+{
+	unsigned char	b;
+	unsigned char	g;
+	unsigned char	r;
+	unsigned char	a;
 }		t_pixel;
 
-typedef struct s_value {
-	int	x;
-	int	y;
-	int	dx;
-	int	dy;
+typedef struct s_value
+{
+	double	x;
+	double	y;
+	int		dx;
+	int		dy;
 }		t_value;
 
-typedef struct s_vom {
+typedef struct s_vom
+{
 	int		size_line;
 	int		nb_line;
 	int		**tab;
@@ -60,7 +63,7 @@ typedef struct s_vom {
 
 void	ft_init(t_vom *vom);
 
-void	ft_parsing(t_vom *vom, char *file_name);
+int		ft_parsing(t_vom *vom, char *file_name);
 t_list	*ft_put_in_list(t_vom *vom, char *file_name);
 
 int		*ft_alloc_number(int n);
@@ -68,8 +71,8 @@ void	free_tab(void **tab);
 
 t_pixel	color(int r, int g, int b);
 void	color_background(t_vom *vom);
-int		iso_x(int x, int y);
-int		iso_y(int x, int y, int z);
+double	iso_x(int x, int y);
+double	iso_y(int x, int y, int z);
 t_value	point(int x, int y);
 
 void	x_is_the_star(t_value *value, t_value point1, t_vom *vom);

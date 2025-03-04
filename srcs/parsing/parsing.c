@@ -6,7 +6,7 @@
 /*   By: tcherepoff <tcherepoff@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 22:52:28 by ltcherep          #+#    #+#             */
-/*   Updated: 2025/03/04 00:11:52 by tcherepoff       ###   ########.fr       */
+/*   Updated: 2025/03/04 00:50:12 by tcherepoff       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,30 +73,30 @@ t_list	*ft_put_in_list(t_vom *vom, char *file_name)
 	return (list);
 }
 
-void	ft_parsing(t_vom *vom, char *file_name)
+int	ft_parsing(t_vom *vom, char *file_name)
 {
 	int		i;
 	int		z;
 	t_list	*list;
 	t_list	*current;
 
-	i = 0;
 	list = ft_put_in_list(vom, file_name);
+	if (!list)
+		return (1);
 	vom->nb_line = ft_lstsize(list) / vom->size_line;
 	current = list;
-	vom->tab = malloc(sizeof(int *) * (ft_lstsize(list) + 1));
-	while (i < vom->nb_line)
+	vom->tab = ft_calloc(sizeof(int *), (ft_lstsize(list) + 1));
+	i = -1;
+	while (++i < vom->nb_line)
 	{
-		z = 0;
+		z = -1;
 		vom->tab[i] = malloc(sizeof(int) * vom->size_line);
-		while (current && z < vom->size_line)
+		while (current && ++z < vom->size_line)
 		{
 			vom->tab[i][z] = *((int *)current->content);
 			current = current->next;
-			z++;
 		}
-		i++;
 	}
-	vom->tab[i] = NULL;
 	ft_lstclear(&list, free);
+	return (0);
 }

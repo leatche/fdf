@@ -6,7 +6,7 @@
 /*   By: tcherepoff <tcherepoff@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 22:56:42 by ltcherep          #+#    #+#             */
-/*   Updated: 2025/03/04 00:24:59 by tcherepoff       ###   ########.fr       */
+/*   Updated: 2025/03/04 01:26:00 by tcherepoff       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	ft_get_border(t_vom *vom)
 		x = 0;
 		while (x < vom->size_line)
 		{
-			iso.x = iso_x(x, y) * vom->size;
-			iso.y = iso_y(x, y, vom->tab[y][x] / 5) * vom->size;
+			iso.x = iso_x(x, y);
+			iso.y = iso_y(x, y, vom->tab[y][x]);
 			if (iso.x < vom->min.x)
 				vom->min.x = iso.x;
 			if (iso.x > vom->max.x)
@@ -49,6 +49,8 @@ void	ft_calculate_border(t_vom *vom)
 	ft_init_minmax(vom);
 	ft_get_border(vom);
 	vom->size = 1;
+	if (vom->nb_line == 1 && vom->size_line == 1)
+		return ;
 	while (offset.x > OFFSET && offset.y > OFFSET)
 	{
 		offset.x = (vom->width - (vom->size * (vom->max.x - vom->min.x))) / 2;
@@ -61,7 +63,6 @@ void	ft_calculate_border(t_vom *vom)
 		offset.y = (vom->height - (vom->size * (vom->max.y - vom->min.y))) / 2;
 		vom->size -= 0.01;
 	}
-	vom->size += 0.01;
 }
 
 int	main(int ac, char **av)
@@ -74,16 +75,15 @@ int	main(int ac, char **av)
 		i++;
 	if (ac != 2)
 	{
-		ft_putstr_fd("Il y a un probleme la !!! \n", 2);
+		ft_putstr_fd("Il y en a beaucoup la non ?!! \n", 2);
 		return (1);
 	}
 	vom = malloc(sizeof(t_vom));
 	vom->size = 1;
-	ft_parsing(vom, av[1]);
-	if (vom->tab == NULL)
+	if (ft_parsing(vom, av[1]))
 	{
 		ft_putstr_fd("Il y a un probleme la !!! \n", 2);
-		return (1);
+		return (free(vom), 1);
 	}
 	ft_init(vom);
 	ft_calculate_border(vom);

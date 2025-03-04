@@ -6,7 +6,7 @@
 /*   By: tcherepoff <tcherepoff@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 18:43:05 by tcherepoff        #+#    #+#             */
-/*   Updated: 2025/03/04 00:15:32 by tcherepoff       ###   ########.fr       */
+/*   Updated: 2025/03/04 01:16:38 by tcherepoff       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ void	color_background(t_vom *vom)
 	}
 }
 
-int	iso_x(int x, int y)
+double	iso_x(int x, int y)
 {
 	return (x - y);
 }
 
-int	iso_y(int x, int y, int z)
+double	iso_y(int x, int y, int z)
 {
-	return ((x + y) / 2 - z);
+	return ((double)(x + y) / 2 - ((double)z / 5));
 }
 
 t_value	point(int x, int y)

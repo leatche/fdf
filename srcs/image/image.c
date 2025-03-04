@@ -6,7 +6,7 @@
 /*   By: tcherepoff <tcherepoff@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 23:32:35 by tcherepoff        #+#    #+#             */
-/*   Updated: 2025/03/04 00:35:36 by tcherepoff       ###   ########.fr       */
+/*   Updated: 2025/03/04 01:14:20 by tcherepoff       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ t_value	to_iso(t_vom *vom, int x, int y)
 
 	draw_size.x = vom->size * (vom->max.x - vom->min.x);
 	draw_size.y = vom->size * (vom->max.y - vom->min.y);
-	dest.x = -(vom->min.x * vom->size) + iso_x(x * vom->size, y * vom->size)
+	dest.x = -(vom->min.x * vom->size) + iso_x(x, y) * vom->size
 		+ (vom->width - draw_size.x) / 2;
-	dest.y = -(vom->min.y * vom->size) + iso_y(x * vom->size, y * vom->size,
-			(vom->tab[y][x] / 5) * vom->size) + (vom->height - draw_size.y) / 2;
+	dest.y = -(vom->min.y * vom->size) + iso_y(x, y, vom->tab[y][x]) * vom->size
+		+ (vom->height - draw_size.y) / 2;
 	return (dest);
 }
 
